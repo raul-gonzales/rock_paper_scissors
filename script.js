@@ -4,7 +4,19 @@ console.log("Game: Rock, Paper, Scissors!");
 let humanScore = 0,
   computerScore = 0;
 
-playGame();
+// Get node list of all rps buttons using rps-button class
+const rpsButtons = document.querySelectorAll(".rps-button");
+
+// Using forEach, iterate through each rps button
+rpsButtons.forEach((button) => {
+  // Add 'click' event listener to each button
+  button.addEventListener("click", () => {
+    // Set human choice based on the button id
+    humanChoice = button.id.toUpperCase();
+    // Play a round when a button is clicked
+    playRound(humanChoice, getComputerChoice());
+  });
+});
 
 //----------------------    FUNCTIONS   --------------------
 
@@ -21,15 +33,9 @@ function getComputerChoice() {
   return computerChoice;
 }
 
-// Get human choice by prompt
-function getHumanChoice() {
-  let humanChoice = prompt("Type 'Rock', 'Paper', or 'Scissors'");
-  return humanChoice;
-}
-
-// Play a round of RPS
+// Play a round of RPS using buttons
 function playRound(humanChoice, computerChoice) {
-  let humanSelection = humanChoice.toUpperCase(),
+  let humanSelection = humanChoice,
     computerSelection = computerChoice;
   if (humanSelection === computerSelection) {
     console.log("It's a tie!");
@@ -53,28 +59,28 @@ function playRound(humanChoice, computerChoice) {
   }
 }
 
-// Play a game of RPS, total of 5 rounds
-function playGame() {
-  let counter = 0;
-  let winner;
-  while (counter < 5) {
-    let humanSelection = getHumanChoice(),
-      computerSelection = getComputerChoice();
+// // Play a game of RPS, total of 5 rounds
+// function playGame() {
+//   let counter = 0;
+//   let winner;
+//   while (counter < 5) {
+//     let humanSelection = getHumanChoice(),
+//       computerSelection = getComputerChoice();
 
-    console.log(`Your choice:\t\t${humanSelection.toUpperCase()}`);
-    console.log(`Computer choice:\t${computerSelection.toUpperCase()}`);
+//     console.log(`Your choice:\t\t${humanSelection.toUpperCase()}`);
+//     console.log(`Computer choice:\t${computerSelection.toUpperCase()}`);
 
-    playRound(humanSelection, computerSelection);
+//     playRound(humanSelection, computerSelection);
 
-    if (counter === 4) {
-      console.log(
-        `\n\tFinal Scores\nUser\t-\tComputer\n\t${humanScore}\t-\t${computerScore}`
-      );
-      announceWinner("PLAYER", "COMPUTER", humanScore, computerScore);
-    }
-    counter++;
-  }
-}
+//     if (counter === 4) {
+//       console.log(
+//         `\n\tFinal Scores\nUser\t-\tComputer\n\t${humanScore}\t-\t${computerScore}`
+//       );
+//       announceWinner("PLAYER", "COMPUTER", humanScore, computerScore);
+//     }
+//     counter++;
+//   }
+// }
 
 // Function to announce the winner, set the names and input the final scores
 function announceWinner(name1, name2, score1, score2) {
