@@ -1,13 +1,20 @@
 //-------------------------    MAIN   -----------------------
-console.log("Game: Rock, Paper, Scissors!");
 
+// Set initial scores
 let humanScore = 0,
   computerScore = 0;
 
-// Get container divs from document
+// DOM variables
+// Get container for buttons and result display
 const buttonsContainer = document.querySelector("#buttons-container");
 const resultDisplay = document.querySelector(".result-display");
-const result = document.createElement("p");
+
+// Initialize result display content
+const result = document.createElement("div");
+
+// Initialize score content
+const scores = document.querySelector(".scores");
+let scoresText = document.createElement("p");
 
 // Get node list of all rps buttons using rps-button class
 const rpsButtons = document.querySelectorAll(".rps-button");
@@ -20,21 +27,16 @@ rpsButtons.forEach((button) => {
     humanChoice = button.id.toUpperCase();
     // Play a round when a button is clicked
     playRound(humanChoice, getComputerChoice());
-    if (computerScore === 5) {
-      result.classList.add("winner-result");
-      result.textContent = "Computer Wins!";
-      resultDisplay.appendChild(result);
-    } else if (humanScore === 5) {
-      result.classList.add("winner-result");
-      result.textContent = "You Win!";
-      resultDisplay.appendChild(result);
-    }
+    // Display score
+    displayScores(humanScore, computerScore);
+    // Select winner after 5 wins, then reset score
+    checkWinner(humanScore, computerScore);
   });
 });
 
 //----------------------    FUNCTIONS   --------------------
 
-// Get computer choice using random number generator
+// Get computer choice using a random number generator
 function getComputerChoice() {
   let computerChoice = Math.floor(Math.random() * 3);
   if (computerChoice === 0) {
@@ -52,11 +54,14 @@ function playRound(humanChoice, computerChoice) {
   let humanSelection = humanChoice,
     computerSelection = computerChoice;
 
+  if (humanScore === 0 && computerScore === 0) {
+    result.innerText = "";
+  }
+
   if (humanSelection === computerSelection) {
     result.classList.add("result");
-    result.textContent = "It's a tie!";
+    result.innerText += "It's a tie!\n";
     resultDisplay.appendChild(result);
-    // console.log("It's a tie!");
     return;
   } else if (
     (humanSelection === "ROCK" && computerSelection === "PAPER") ||
@@ -64,9 +69,8 @@ function playRound(humanChoice, computerChoice) {
     (humanSelection === "SCISSORS" && computerSelection === "ROCK")
   ) {
     result.classList.add("result");
-    result.textContent = `You lose! ${computerSelection} beats ${humanSelection}`;
+    result.innerText += `You lose! ${computerSelection} beats ${humanSelection}\n`;
     resultDisplay.appendChild(result);
-    // console.log(`You lose! ${computerSelection} beats ${humanSelection}`);
     computerScore++;
   } else if (
     (humanSelection === "ROCK" && computerSelection === "SCISSORS") ||
@@ -74,25 +78,37 @@ function playRound(humanChoice, computerChoice) {
     (humanSelection === "SCISSORS" && computerSelection === "PAPER")
   ) {
     result.classList.add("result");
-    result.textContent = `You win! ${humanSelection} beats ${computerSelection}`;
+    result.innerText += `You win! ${humanSelection} beats ${computerSelection}\n`;
     resultDisplay.appendChild(result);
-    // console.log(`You win! ${humanSelection} beats ${computerSelection}`);
     humanScore++;
   } else {
     result.classList.add("result");
-    result.textContent = `ERROR: Invalid choice!`;
+    result.innerText += `ERROR: Invalid choice!\n`;
     resultDisplay.appendChild(result);
-    // console.log(`ERROR: Invalid choice!`);
   }
 }
 
-// Function to announce the winner, set the names and input the final scores
-function announceWinner(name1, name2, score1, score2) {
-  if (score1 === score2) {
-    console.log(`It's a TIE!`);
-  } else if (score1 > score2) {
-    console.log(`${name1} WINS!`);
-  } else {
-    console.log(`${name2} WINS!`);
+function checkWinner(humanScore, computerScore) {
+  if (computerScore === 5) {
+    result.classList.add("winner-result");
+    result.innerText = "YOU LOSE!\n";
+    resultDisplay.appendChild(result);
+    resetScores();
+  } else if (humanScore === 5) {
+    result.classList.add("winner-result");
+    result.innerText = "YOU WIN!\n";
+    resultDisplay.appendChild(result);
+    resetScores();
   }
+}
+
+function displayScores(humanScore, computerScore) {
+  scoresText.classList.add("score-display");
+  scoresText.textContent = `YOU: ${humanScore} COMPUTER: ${computerScore}`;
+  scores.appendChild(scoresText);
+}
+
+function resetScores() {
+  humanScore = 0;
+  computerScore = 0;
 }
