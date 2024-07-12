@@ -4,11 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
     <title>Document</title>
   </head>
   <body>
-    <button class ="rps-button" id="rock">ROCK</button>
-    <button class ="rps-button" id="paper">PAPER</button>
-    <button class ="rps-button" id="scissors">SCISSORS</button>
+    <div id="buttons-container">
+      <button class="rps-button button-78" role="button" id="rock">ROCK</button>
+      <button class="rps-button button-78" role="button" id="paper">PAPER</button>
+      <button class="rps-button button-78" role="button" id="scissors">SCISSORS</button>
+    </div>
+    <div id="results-container">
+      <div class="scores">
+        <div class="human-score"></div>
+        <div class="computer-score"></div>
+      </div>
+      <div class="result-display">
+      </div>
+    </div>
   </body>
 </html>

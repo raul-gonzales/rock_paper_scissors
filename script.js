@@ -4,6 +4,11 @@ console.log("Game: Rock, Paper, Scissors!");
 let humanScore = 0,
   computerScore = 0;
 
+// Get container divs from document
+const buttonsContainer = document.querySelector("#buttons-container");
+const resultDisplay = document.querySelector(".result-display");
+const result = document.createElement("p");
+
 // Get node list of all rps buttons using rps-button class
 const rpsButtons = document.querySelectorAll(".rps-button");
 
@@ -15,6 +20,15 @@ rpsButtons.forEach((button) => {
     humanChoice = button.id.toUpperCase();
     // Play a round when a button is clicked
     playRound(humanChoice, getComputerChoice());
+    if (computerScore === 5) {
+      result.classList.add("winner-result");
+      result.textContent = "Computer Wins!";
+      resultDisplay.appendChild(result);
+    } else if (humanScore === 5) {
+      result.classList.add("winner-result");
+      result.textContent = "You Win!";
+      resultDisplay.appendChild(result);
+    }
   });
 });
 
@@ -37,50 +51,40 @@ function getComputerChoice() {
 function playRound(humanChoice, computerChoice) {
   let humanSelection = humanChoice,
     computerSelection = computerChoice;
+
   if (humanSelection === computerSelection) {
-    console.log("It's a tie!");
+    result.classList.add("result");
+    result.textContent = "It's a tie!";
+    resultDisplay.appendChild(result);
+    // console.log("It's a tie!");
     return;
   } else if (
     (humanSelection === "ROCK" && computerSelection === "PAPER") ||
     (humanSelection === "PAPER" && computerSelection === "SCISSORS") ||
     (humanSelection === "SCISSORS" && computerSelection === "ROCK")
   ) {
-    console.log(`You lose! ${computerSelection} beats ${humanSelection}`);
+    result.classList.add("result");
+    result.textContent = `You lose! ${computerSelection} beats ${humanSelection}`;
+    resultDisplay.appendChild(result);
+    // console.log(`You lose! ${computerSelection} beats ${humanSelection}`);
     computerScore++;
   } else if (
     (humanSelection === "ROCK" && computerSelection === "SCISSORS") ||
     (humanSelection === "PAPER" && computerSelection === "ROCK") ||
     (humanSelection === "SCISSORS" && computerSelection === "PAPER")
   ) {
-    console.log(`You win! ${humanSelection} beats ${computerSelection}`);
+    result.classList.add("result");
+    result.textContent = `You win! ${humanSelection} beats ${computerSelection}`;
+    resultDisplay.appendChild(result);
+    // console.log(`You win! ${humanSelection} beats ${computerSelection}`);
     humanScore++;
   } else {
-    console.log(`ERROR: Invalid choice!`);
+    result.classList.add("result");
+    result.textContent = `ERROR: Invalid choice!`;
+    resultDisplay.appendChild(result);
+    // console.log(`ERROR: Invalid choice!`);
   }
 }
-
-// // Play a game of RPS, total of 5 rounds
-// function playGame() {
-//   let counter = 0;
-//   let winner;
-//   while (counter < 5) {
-//     let humanSelection = getHumanChoice(),
-//       computerSelection = getComputerChoice();
-
-//     console.log(`Your choice:\t\t${humanSelection.toUpperCase()}`);
-//     console.log(`Computer choice:\t${computerSelection.toUpperCase()}`);
-
-//     playRound(humanSelection, computerSelection);
-
-//     if (counter === 4) {
-//       console.log(
-//         `\n\tFinal Scores\nUser\t-\tComputer\n\t${humanScore}\t-\t${computerScore}`
-//       );
-//       announceWinner("PLAYER", "COMPUTER", humanScore, computerScore);
-//     }
-//     counter++;
-//   }
-// }
 
 // Function to announce the winner, set the names and input the final scores
 function announceWinner(name1, name2, score1, score2) {
